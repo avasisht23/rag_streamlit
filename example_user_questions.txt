@@ -1,0 +1,9 @@
+- Revenue and Profit Trends: How is Company X performing in terms of revenue and profit? Are there any notable trends or changes in these figures compared to previous quarters or years?
+- Guidance and Future Projections: What is Company X’s guidance for future quarters? Are there any changes to their long-term financial projections?
+- Market and Competitive Landscape: How is Company X positioned in the market compared to its competitors? Are there any new market opportunities or threats?
+- Operational Efficiency: How efficiently is Company X operating? Are there improvements or declines in margins, cost structures, or operational processes?
+- What are the top themes/discussion points that executives are discussing for Company X in Quarter Y Fiscal Year Z
+- What topics are analysts asking the most about for Company X in Quarter Y Fiscal Year Z? Has this shifted meaningfully from prior quarters?
+- Provide me with examples of statements that were said most confidently by executives for Company X in Quarter Y Fiscal Year Z. Provide me with statements said least confidently or with more hedging/qualifiers. Have these statements changed compared to prior quarters?
+- Summarize earnings call X.
+- Summarize earnings call X and compare it to earnings call Y.
