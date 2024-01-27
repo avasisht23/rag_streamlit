@@ -1,2 +1,5 @@
+black
 streamlit
 openai
+llama-index
+qdrant-client
