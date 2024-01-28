@@ -1,5 +1,6 @@
 import os
 from llama_index import Document
+from llama_index.agent import OpenAIAgent
 from llama_index.tools import QueryEngineTool, ToolMetadata
 from llama_index.query_engine import SubQuestionQueryEngine
 from llama_index.indices import VectorStoreIndex
@@ -23,6 +24,7 @@ class LlamaIndexClient(object):
         self.qdrant_url = qdrant_url
 
         self.engine = None
+        self.agent = None
 
     def build_engine(self, dirname: str = EARNINGS_CALLS_REL_DIRNAME):
         """
@@ -61,6 +63,9 @@ class LlamaIndexClient(object):
         self.engine = SubQuestionQueryEngine.from_defaults(
             query_engine_tools=query_engine_tools, use_async=False
         )
+
+        tool = QueryEngineTool.from_defaults(self.engine)
+        self.agent = OpenAIAgent.from_tools([tool], verbose=True)
 
     def __build_index(
         self,
@@ -107,7 +112,7 @@ class LlamaIndexClient(object):
         Returns:
             The query results.
         """
-        if self.engine is None:
+        if self.engine is None and self.agent is None:
             raise ValueError("Engine not built yet. Please call build_engine() first.")
 
-        return self.engine.query(query)
+        return self.agent.chat(query)
