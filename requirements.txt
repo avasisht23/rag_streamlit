@@ -1,4 +1,5 @@
 black
+python-dotenv
 streamlit
 openai
 llama-index

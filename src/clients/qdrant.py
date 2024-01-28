@@ -3,7 +3,7 @@ from llama_index.storage.storage_context import StorageContext
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.service_context import ServiceContext
 
-from constants import LOCAL_QDRANT_URL
+from utils.constants import LOCAL_QDRANT_URL
 
 
 class QdrantClient(object):
@@ -19,6 +19,13 @@ class QdrantClient(object):
         self.storage_context = None
 
     def build_vector_store(self, collection_name: str):
+        """
+        Builds a vector store for the given collection name.
+
+        Args:
+            collection_name (str): The name of the collection to build a vector store for.
+        """
+
         self.vector_store = QdrantVectorStore(
             client=self.inner, collection_name=collection_name
         )
