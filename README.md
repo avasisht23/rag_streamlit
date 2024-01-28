@@ -1,26 +1,70 @@
-# Building a Multi-Document Question-Answering App
+# Multi-Document Question-Answering App
 
-Your goal is to implement a multi-document QA application with a RAG pipeline for company earnings calls. Your app should have basic frontend capabilities, and it should be using Python as a backend.
+The chatbot uses a Retrieval Augmented Generation (RAG) pipeline to answer questions about company earnings calls. Core technologies include [LlamaIndex](https://docs.llamaindex.ai/en/stable) for the query engine, [Qdrant](https://qdrant.tech) for the vector database, and [StreamLit](https://share.streamlit.io/) for hosting the Python-based web application.
 
-More specifically, implement the following parts:
+The application demo is available [here](https://avasisht23-rag-demo.streamlit.app/) to try!
 
-## Basic RAG Pipeline
-Your goal for this section is to set up a basic Retrieval Augmented Generation (RAG) pipeline with LLamaindex (https://docs.llamaindex.ai/en/stable/) that you can use in the backend to fetch relevant document chunks. We recommend using Qdrant (https://qdrant.tech/) as the vector DB provider, but feel free to use something else. For the LLM, feel free to use the OpenAI API with one of our API keys. We also provide a file `example_user_questions.txt` which contains a non-exhaustive list of representative questions a user might ask.
+To learn more, check out [this notion doc](https://ultra-blarney-71a.notion.site/RFC-Document-Based-Q-A-Chatbot-d0fb35d64e794326a31ae4b45eb120e5?pvs=4).
 
-A representative sample set of documents that a user might upload is provided via the `earnings_call_project.zip`. Your RAG pipeline only needs to support `.txt` files in the provided `earnings_calls.zip` file, and you can assume that the file names will always have semantic meaning, i.e., you can use the filenames to reason about the relevancy of a document given a question.
+## Setup the Dev Environment
 
-Your retrieval pipeline should operate over the entire space of documents and not just a single one, meaning part of building the pipeline is figuring out how to select relevant documents for a given question as well.
+The required Python version is at least `3.9`. The demo was built with `3.9.12` using a Python virutal environment.
 
-**Tasks**:
+To replicate the development environment, execute the following commands on your terminal from the root folder of the repo.
 
-1. Sketch out a system design for the RAG pipeline with all relevant components & highlighting the interaction flows.
-2. Implement the RAG pipeline as proposed with the provided documents in `earnings_call_project.zip`
-3. Test your final pipeline with the example questions we provide in `example_user_questions.txt`. How does it perform?
+First, create a Python virtual environment and activate it.
+```
+python -m venv venv
+source venv/bin/activate
+```
 
-Bonus: Can you think of any improvements you can make to your pipeline to improve the results?
+Then, install all dependencies in this environment:
+```
+pip install -r requirements.txt
+```
 
-## Building the App
-For this section, build the actual multi-doc QA application. You can use frameworks of your choice, but your backend needs to be built in Python.
+Lastly, copy `.streamlit/sample.secrets.toml` into `.streamlit/secrets.toml`, and `sample.env` into `.env` and paste in your environment variables. These will include the OpenAI API key, Qdrant API key, and Qdrant hosted database URL for connection.
+
+## Initialize the Vector DB
+
+Qdrant enables both local and cloud-hosted connections to a vector database. 
+
+To run a Qdrant vector database locally, download [Docker Desktop](https://www.docker.com/products/docker-desktop/) and then execute the following commands to download the Docker image and run it on a container:
+
+```
+docker pull qdrant/qdrant
+docker run -p 6333:6333 qdrant/qdrant
+```
+
+Otherwise, ensure you have in `QDRANT_API_KEY` and `QDRANT_URL` in your `.env` folder to populate the vector database.
+
+Then, from the root folder of the repo, run:
+```
+python src/populate_vector_db.py
+```
+
+This script will populate multiple collections of vectors, with each collection corresponding to a different company across all earnings calls. This ensures the vector database has an index on company, which will speed up queries from the chatbot's query engine.
+
+If you try to populate your cloud-hosted vector database on a Qdrant free tier account, you may experience rate limits. You will need to retry the script as necessary. This will not be an issue on the local DB instance, however, so you may even want to compare the collections to ensure each of their vector counts match their corresponding local connection.
+
+## Run the Application
+
+Ensure you have in `QDRANT_API_KEY` and `QDRANT_URL` in your `.streamlit/.secrets.toml` file to initialize the vector database.
+
+To start the application locally, run:
+```
+streamlit run src/app.py
+```
+
+This will use Streamlit to render a UI for the chatbot application. You now have all the pieces you need to try the app and even contribute new features!
+
+## Deploying the Application
+
+If you choose to fork this repo into your Github account, you can deploy a replica application.
+
+Make sure to create an account on [StreamLit](https://share.streamlit.io/). Follow the instructions to sign up / sign in, and then deploy this application using Python `3.9`. Remember to also include the secret variables from `.streamlit/.secrets.toml`.
+
+Streamlit will then host the app and provide you with a URL to share.
 
 **App Requirements**:
 
