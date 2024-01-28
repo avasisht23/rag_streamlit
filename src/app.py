@@ -3,7 +3,7 @@ from llama_idx import LlamaIndexClient
 
 st.title("Earnings Calls RAG App")
 st.info(
-    "Check out the full tutorial on this [Github repo](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/)!",
+    "Check out the full tutorial on this [Github repo](https://github.com/avasisht23/rag_streamlit)!",
     icon="📃",
 )
 
@@ -21,7 +21,11 @@ def load_data():
     with st.spinner(
         text="Loading and indexing company earnings calls – hang tight! This should take 1-2 minutes."
     ):
-        client = LlamaIndexClient(api_key=st.secrets["OPENAI_API_KEY"])
+        client = LlamaIndexClient(
+            openai_api_key=st.secrets["OPENAI_API_KEY"],
+            qdrant_api_key=st.secrets["QDRANT_API_KEY"],
+            qdrant_url=st.secrets["QDRANT_URL"],
+        )
         client.build_engine()
         return client
 
