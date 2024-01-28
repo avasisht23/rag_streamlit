@@ -47,6 +47,8 @@ This script will populate multiple collections of vectors, with each collection 
 
 If you try to populate your cloud-hosted vector database on a Qdrant free tier account, you may experience rate limits. You will need to retry the script as necessary. This will not be an issue on the local DB instance, however, so you may even want to compare the collections to ensure each of their vector counts match their corresponding local connection.
 
+You may also experience rate limits from OpenAI if you're on their free tier account. This may result in higher latency and client-side errors when executing this script or running your app locally later on.
+
 ## Run the Application
 
 Ensure you have in `QDRANT_API_KEY` and `QDRANT_URL` in your `.streamlit/.secrets.toml` file to initialize the vector database.
