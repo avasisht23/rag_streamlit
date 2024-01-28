@@ -1,10 +1,11 @@
 import re
 from os import listdir
 from os.path import isfile, join
-from constants import EARNINGS_CALLS_FILENAME_REGEX
+
+from utils.constants import EARNINGS_CALLS_FILENAME_REGEX, EARNINGS_CALLS_REL_DIRNAME
 
 
-def parse_earnings_calls(dirname: str):
+def parse_earnings_calls(dirname: str = EARNINGS_CALLS_REL_DIRNAME):
     """Parses a list of earnings calls into their components.
 
     Args:

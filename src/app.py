@@ -1,5 +1,6 @@
 import streamlit as st
-from llama_idx import LlamaIndexClient
+
+from clients.llama_idx import LlamaIndexClient
 
 st.title("Earnings Calls RAG App")
 st.info(

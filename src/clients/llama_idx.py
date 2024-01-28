@@ -6,9 +6,9 @@ from llama_index.indices import VectorStoreIndex
 from llama_index.readers import SimpleDirectoryReader
 from qdrant_client.models import CollectionStatus
 
-from qdrant import QdrantClient
-from parsing import parse_earnings_calls
-from constants import EARNINGS_CALLS_REL_DIRNAME, LOCAL_QDRANT_URL
+from clients.qdrant import QdrantClient
+from utils.parsing import parse_earnings_calls
+from utils.constants import EARNINGS_CALLS_REL_DIRNAME, LOCAL_QDRANT_URL
 
 
 class LlamaIndexClient(object):
@@ -25,6 +25,12 @@ class LlamaIndexClient(object):
         self.engine = None
 
     def build_engine(self, dirname: str = EARNINGS_CALLS_REL_DIRNAME):
+        """
+        Builds the query engine with the earnings calls data.
+
+        Args:
+            dirname (str): The directory containing the earnings calls.
+        """
         query_engine_tools = []
 
         parsed_earnings_calls = parse_earnings_calls(dirname)
@@ -62,6 +68,17 @@ class LlamaIndexClient(object):
         collection_name: str,
         company_documents: [Document],
     ):
+        """
+        Builds the index for the given company.
+
+        Args:
+            qdrant_client (QdrantClient): The Qdrant client to use.
+            collection_name (str): The name of the collection to build.
+            company_documents ([Document]): The list of documents to use to build the index.
+
+        Returns:
+            VectorStoreIndex: The index for the given company, either built from the existing vector store or from the documents.
+        """
         try:
             collection = qdrant_client.inner.get_collection(collection_name)
             if collection.status != CollectionStatus.GREEN:
@@ -81,6 +98,15 @@ class LlamaIndexClient(object):
             )
 
     def query(self, query: str):
+        """
+        Queries the earnings calls data.
+
+        Args:
+            query (str): The query to run.
+
+        Returns:
+            The query results.
+        """
         if self.engine is None:
             raise ValueError("Engine not built yet. Please call build_engine() first.")
 
