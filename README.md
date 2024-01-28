@@ -65,17 +65,3 @@ If you choose to fork this repo into your Github account, you can deploy a repli
 Make sure to create an account on [StreamLit](https://share.streamlit.io/). Follow the instructions to sign up / sign in, and then deploy this application using Python `3.9`. Remember to also include the secret variables from `.streamlit/.secrets.toml`.
 
 Streamlit will then host the app and provide you with a URL to share.
-
-**App Requirements**:
-
-1. A user can ask a question for the ingested `.txt` files, the system retrieves the relevant chunks/documents and answers the user question.
-2. The app keeps track of the chat history with a given user and takes it into account when answering questions.
-3. The app is only expected to answer questions using information from uploaded documents & the user chat history.
-4. The app should be stateful in terms of uploaded documents & chat history.
-5. The app should be hosted & accessible via a URL
-
-**Deliverables**
-
-1. The URL of the hosted app
-2. Provide instructions on how to run access/use the app
-3. Provide systems diagram of all components of your app, and a small writeup explaining it
